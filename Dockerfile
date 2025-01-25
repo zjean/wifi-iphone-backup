@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
 # Set the working directory
-WORKDIR /altserver
+WORKDIR /app
 
 # Install necessary system dependencies
 RUN apt-get update && apt-get install -y \
@@ -25,26 +25,22 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Copy the altserver directory to the container
-COPY scripts /altserver/scripts
-COPY lib.tar.xz /altserver/lib.tar.xz
+COPY scripts /app/scripts
 
 # Make the scripts executable
-RUN chmod -R +x /altserver/scripts
+RUN chmod -R +x /app/scripts
 
 # Create the logs directory
-RUN mkdir -p /altserver/logs
+RUN mkdir -p /app/logs
 
 # Copy the supervisord configuration file
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Set the anisette server environment variable
-ENV ALTSERVER_ANISETTE_SERVER=http://127.0.0.1:6969
-
 # Make the entrypoint script executable
-RUN chmod +x /altserver/scripts/docker-entrypoint.sh
+RUN chmod +x /app/scripts/docker-entrypoint.sh
 
 # Use supervisord as the entrypoint
-ENTRYPOINT ["/altserver/scripts/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/scripts/docker-entrypoint.sh"]
 
 # Run the supervisor in the foreground
 CMD ["-n"]

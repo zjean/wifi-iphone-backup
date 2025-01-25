@@ -10,8 +10,8 @@ docker rm altserver || true && \
 # Run the container
 sudo docker run -d \
   -v "./lib:/root/.config/Provision/lib" \
-  -v "./logs:/altserver/logs" \
-  -v "./bin:/altserver/bin" \
+  -v "./logs:/app/logs" \
+  -v "./bin:/app/bin" \
   -v "/dev/bus/usb:/dev/bus/usb" \
   -v "/var/lib/lockdown:/var/lib/lockdown" \
   -v "/var/run:/var/run" \

@@ -10,8 +10,8 @@ services:
     container_name: altserver
     volumes:
       - "./lib:/root/.config/Provision/lib"
-      - "./bin:/altserver/bin"
-      - "./logs:/altserver/logs"
+      - "./bin:/app/bin"
+      - "./logs:/app/logs"
       - "/dev/bus/usb:/dev/bus/usb"
       - "/var/lib/lockdown:/var/lib/lockdown"
       - "/var/run:/var/run"

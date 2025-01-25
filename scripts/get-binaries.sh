@@ -24,8 +24,8 @@ get_latest_version() {
 # Function to get the saved version from the versions file
 get_saved_version() {
     local component="$1"
-    if [ -f "/altserver/bin/versions" ]; then
-        grep "^$component" "/altserver/bin/versions" | cut -d' ' -f2
+    if [ -f "/app/bin/versions" ]; then
+        grep "^$component" "/app/bin/versions" | cut -d' ' -f2
     else
         echo ""
     fi
@@ -35,10 +35,10 @@ get_saved_version() {
 save_version() {
     local component="$1"
     local version="$2"
-    if grep -q "^$component" "/altserver/bin/versions"; then
-        sed -i "s/^$component .*/$component $version/" "/altserver/bin/versions"
+    if grep -q "^$component" "/app/bin/versions"; then
+        sed -i "s/^$component .*/$component $version/" "/app/bin/versions"
     else
-        echo "$component $version" >> "/altserver/bin/versions"
+        echo "$component $version" >> "/app/bin/versions"
     fi
 }
 
@@ -46,10 +46,10 @@ save_version() {
 save_architecture() {
     local component="$1"
     local architecture="$2"
-    if grep -q "^$component" "/altserver/bin/architectures"; then
-        sed -i "s/^$component .*/$component $architecture/" "/altserver/bin/architectures"
+    if grep -q "^$component" "/app/bin/architectures"; then
+        sed -i "s/^$component .*/$component $architecture/" "/app/bin/architectures"
     else
-        echo "$component $architecture" >> "/altserver/bin/architectures"
+        echo "$component $architecture" >> "/app/bin/architectures"
     fi
 }
 
@@ -95,21 +95,8 @@ OVERRIDE_NETMUXD_ARCH="${OVERRIDE_NETMUXD_ARCH:-}"
 OVERRIDE_ANISETTE_ARCH="${OVERRIDE_ANISETTE_ARCH:-}"
 
 # Ensure bin directory exists
-mkdir -p "/altserver/bin"
+mkdir -p "/app/bin"
 
-# Check and download AltStore.ipa
-altstore_version=$(curl -s "$altstore_url" | jq -r "$altstore_version_path")
-altstore_download_url=$(curl -s "$altstore_url" | jq -r "$altstore_download_path")
-check_and_download "AltStore" "$altstore_url" "$altstore_version_path" "$altstore_download_url" "/altserver/bin/AltStore.ipa"
-
-# Check and download AltServer
-# If the architecture is overridden, use the overridden value
-if [ -n "$OVERRIDE_ALTSERVER_ARCH" ]; then
-    ALTSERVER_PKG_ARCH="AltServer-${OVERRIDE_ALTSERVER_ARCH}"
-else
-    ALTSERVER_PKG_ARCH="AltServer-${ARCH}"
-fi
-check_and_download "AltServer" "$altserver_url" ".tag_name" "https://github.com/NyaMisty/AltServer-Linux/releases/download/%s/${ALTSERVER_PKG_ARCH}" "/altserver/bin/AltServer"
 
 # Check and download netmuxd
 if [ -n "$OVERRIDE_NETMUXD_ARCH" ]; then
@@ -119,15 +106,7 @@ else
 fi
 check_and_download "netmuxd" "$netmuxd_url" ".tag_name" "https://github.com/jkcoxson/netmuxd/releases/download/%s/${NETMUXD_PKG_ARCH}" "/altserver/bin/netmuxd"
 
-# Check and download anisette-server
-if [ -n "$OVERRIDE_ANISETTE_ARCH" ]; then
-    ANISETTE_PKG_ARCH="anisette-server-${OVERRIDE_ANISETTE_ARCH}"
-else
-    ANISETTE_PKG_ARCH="anisette-server-${ARCH}"
-fi
-check_and_download "anisette-server" "$anisette_url" ".tag_name" "https://github.com/Dadoum/Provision/releases/download/%s/${ANISETTE_PKG_ARCH}" "/altserver/bin/anisette-server"
 
 # Save the architectures
-save_architecture "AltServer" "$ALTSERVER_PKG_ARCH"
+
 save_architecture "netmuxd" "$NETMUXD_PKG_ARCH"
-save_architecture "anisette-server" "$ANISETTE_PKG_ARCH"
