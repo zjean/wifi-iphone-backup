@@ -1,22 +1,26 @@
 #!/bin/bash
 
 # Build the Docker image
-docker build . -t altserver-docker && \
+docker build . -t libimobiledevice-docker && \
 
 # Stop and remove any existing container
-docker stop altserver || true && \
-docker rm altserver || true && \
+docker stop libimobiledevice-docker || true && \
+docker rm libimobiledevice-docker || true && \
+
+mkdir -p ./bin
+mkdir -p ./logs
+mkdir -p ./data
 
 # Run the container
 sudo docker run -d \
-  -v "./lib:/root/.config/Provision/lib" \
   -v "./logs:/app/logs" \
   -v "./bin:/app/bin" \
+  -v "./data:/data" \
   -v "/dev/bus/usb:/dev/bus/usb" \
   -v "/var/lib/lockdown:/var/lib/lockdown" \
   -v "/var/run:/var/run" \
   -v "/sys/fs/cgroup:/sys/fs/cgroup:ro" \
-  --name altserver \
+  --name libimobiledevice-docker \
   --network host \
   --privileged \
-  altserver-docker
+  libimobiledevice-docker
