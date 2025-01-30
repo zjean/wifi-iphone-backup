@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Build the Docker image
-docker build . -t libimobiledevice-docker && \
+docker build . -t zjean/wifi-iphone-backup && \
 
 # Stop and remove any existing container
-docker stop libimobiledevice-docker || true && \
-docker rm libimobiledevice-docker || true && \
+docker stop wifi-iphone-backup || true && \
+docker rm wifi-iphone-backup || true && \
 
 mkdir -p ./bin
 mkdir -p ./logs
@@ -20,7 +20,7 @@ sudo docker run -d \
   -v "/var/lib/lockdown:/var/lib/lockdown" \
   -v "/var/run:/var/run" \
   -v "/sys/fs/cgroup:/sys/fs/cgroup:ro" \
-  --name libimobiledevice-docker \
+  --name wifi-iphone-backup \
   --network host \
   --privileged \
-  libimobiledevice-docker
+  zjean/wifi-iphone-backup

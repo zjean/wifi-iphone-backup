@@ -1,8 +1,8 @@
-# Altserver-docker
+# Awifi-iphone-backup
 
-A dockerized version of [AltServer-Linux](https://github.com/NyaMisty/AltServer-Linux) with Wi-Fi sync capability. 
+A dockerized version of [AltServer-Linux](https://github.com/NyaMisty/AltServer-Linux) with Wi-Fi sync capability.
 
-**NOTE:** I still keep track of this project as unfortunately it's the only way to have a reliable AltServer on Linux, however, as of iOS 18, it seems that _AltServer_ is not open source and the upstream repo that [AltServer-Linux tracks from](https://github.com/rileytestut/AltServer-Windows) is also unmaintained. Therefore, I would strongly recommend to switching to [SideStore](https://sidestore.io/), which _does not_ require an AltServer to run. Otherwise, your apps will likely become unverified over time. 
+**NOTE:** I still keep track of this project as unfortunately it's the only way to have a reliable AltServer on Linux, however, as of iOS 18, it seems that _AltServer_ is not open source and the upstream repo that [AltServer-Linux tracks from](https://github.com/rileytestut/AltServer-Windows) is also unmaintained. Therefore, I would strongly recommend to switching to [SideStore](https://sidestore.io/), which _does not_ require an AltServer to run. Otherwise, your apps will likely become unverified over time.
 
 ## Requirements
 
@@ -15,34 +15,41 @@ A dockerized version of [AltServer-Linux](https://github.com/NyaMisty/AltServer-
 ### Installing Docker (if not installed already)
 
 #### Linux:
+
 Option 1 (preferred): [Docker Engine](https://docs.docker.com/engine/install/)
 
 Option 2: [Docker Desktop](https://docs.docker.com/desktop/install/linux-install/)
 
 #### Windows:
+
 [Install WSL2](https://docs.docker.com/desktop/wsl/) then use the Linux install instructions or install using [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/).
 
 #### macOS:
+
 Install using [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/).
 
 ### Installing Avahi on Host System
 
 #### Arch-based distros:
+
 ```shell
 pacman -S avahi
 ```
 
 #### Debian/Ubuntu-based distros:
+
 ```shell
 apt install avahi-daemon
 ```
 
 #### Fedora-based distros:
+
 ```shell
 dnf install avahi
 ```
 
 #### Enable and start the service using systemd:
+
 ```shell
 sudo systemctl enable avahi-daemon
 sudo systemctl start avahi-daemon
@@ -51,22 +58,26 @@ sudo systemctl start avahi-daemon
 ### Stopping or removing usbmuxd from Host System
 
 #### Stop and disable the service using systemd:
+
 ```shell
 sudo systemctl stop usbmuxd
 sudo systemctl disable usbmuxd
 ```
 
 #### Arch-based distros:
+
 ```shell
 pacman -R usbmuxd
 ```
 
 #### Debian/Ubuntu-based distros:
+
 ```shell
 apt remove usbmuxd
 ```
 
 #### Fedora-based distros:
+
 ```shell
 dnf remove usbmuxd
 ```
@@ -104,7 +115,7 @@ sudo docker run -d \
   --name altserver \
   --network host \
   --privileged \
-  altserver-docker 
+  altserver-docker
 ```
 
 ## Install AltStore on iOS Device
@@ -130,11 +141,11 @@ Logs will be stored in the directory where the container is ran inside `./logs`
 It's possible to override which architecture of altserver, netmuxd, anisette-server and provision libraries (for anisette) are downloaded by setting the following environment variables in the docker compose file:
 
 ```yaml
-  environment:
-    - OVERRIDE_ALTSERVER_ARCH=x86_64
-    - OVERRIDE_NETMUXD_ARCH=x86_64
-    - OVERRIDE_ANISETTE_ARCH=x86_64
-    - OVERRIDE_PROVISION_LIBS_ARCH=x86_64
+environment:
+  - OVERRIDE_ALTSERVER_ARCH=x86_64
+  - OVERRIDE_NETMUXD_ARCH=x86_64
+  - OVERRIDE_ANISETTE_ARCH=x86_64
+  - OVERRIDE_PROVISION_LIBS_ARCH=x86_64
 ```
 
 or alternatively adding them in the `docker run` command before the image name:
@@ -158,8 +169,8 @@ You can check for which architectures are available by checking the releases of 
 It's possible to allow provision to download the libraries it needs from the apple music android apk by setting the following environment variable in the docker compose file:
 
 ```yaml
-  environment:
-    - ALLOW_PROVISION_TO_DOWNLOAD_LIBS=true
+environment:
+  - ALLOW_PROVISION_TO_DOWNLOAD_LIBS=true
 ```
 
 or alternatively adding it in the `docker run` command before the image name:

@@ -80,19 +80,12 @@ check_and_download() {
 }
 
 # Define URLs and paths
-altstore_url="https://cdn.altstore.io/file/altstore/apps.json"
-altstore_version_path=".apps[0].versions[0].version"
-altstore_download_path=".apps[0].versions[0].downloadURL"
-altserver_url="https://api.github.com/repos/NyaMisty/AltServer-Linux/releases/latest"
 netmuxd_url="https://api.github.com/repos/jkcoxson/netmuxd/releases/latest"
-anisette_url="https://api.github.com/repos/Dadoum/Provision/releases/latest"
 
 ARCH="$(uname -m)"
 
 # Override architectures
-OVERRIDE_ALTSERVER_ARCH="${OVERRIDE_ALTSERVER_ARCH:-}"
 OVERRIDE_NETMUXD_ARCH="${OVERRIDE_NETMUXD_ARCH:-}"
-OVERRIDE_ANISETTE_ARCH="${OVERRIDE_ANISETTE_ARCH:-}"
 
 # Ensure bin directory exists
 mkdir -p "/app/bin"
