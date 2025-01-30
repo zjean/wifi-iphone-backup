@@ -1,29 +1,22 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  altserver:
-    # Optional build configuration 
+  wifi-iphone-backup:
+    # Optional build configuration
     # build:
     #   context: .
     #   dockerfile: Dockerfile
-    image: dreth/altserver-docker:latest
-    container_name: altserver
+    image: zjean/wifi-iphone-backup:latest
+    container_name: wifi-iphone-backup
     volumes:
-      - "./lib:/root/.config/Provision/lib"
-      - "./bin:/altserver/bin"
-      - "./logs:/altserver/logs"
+      - "./bin:/app/bin"
+      - "./logs:/app/logs"
+      - "./data:/data"
       - "/dev/bus/usb:/dev/bus/usb"
       - "/var/lib/lockdown:/var/lib/lockdown"
       - "/var/run:/var/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
     network_mode: host
-    # Optional environment variables to override the default architecture
-    # for the altserver, netmuxd, and anisette binaries.
-    # environment:
-    #   - OVERRIDE_ALTSERVER_ARCH=x86_64
-    #   - OVERRIDE_NETMUXD_ARCH=x86_64
-    #   - OVERRIDE_ANISETTE_ARCH=x86_64
-    #   - OVERRIDE_PROVISION_LIBS_ARCH=x86_64
-    #   - ALLOW_PROVISION_TO_DOWNLOAD_LIBS=true
+
     privileged: true
     restart: unless-stopped
