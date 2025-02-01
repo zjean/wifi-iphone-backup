@@ -97,7 +97,7 @@ if [ -n "$OVERRIDE_NETMUXD_ARCH" ]; then
 else
     NETMUXD_PKG_ARCH="${ARCH}-linux-netmuxd"
 fi
-check_and_download "netmuxd" "$netmuxd_url" ".tag_name" "https://github.com/jkcoxson/netmuxd/releases/download/%s/${NETMUXD_PKG_ARCH}" "/altserver/bin/netmuxd"
+check_and_download "netmuxd" "$netmuxd_url" ".tag_name" "https://github.com/jkcoxson/netmuxd/releases/download/%s/${NETMUXD_PKG_ARCH}" "/app/bin/netmuxd"
 
 
 # Save the architectures
